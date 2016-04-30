@@ -2,7 +2,7 @@
 
 namespace app\controller\user;
 
-use \roar\controller\Action;
+use roar\base\controller\Action;
 
 class Center {
     use Action;

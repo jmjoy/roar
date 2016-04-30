@@ -6,4 +6,8 @@ use roar\base\controller\Action;
 
 class Index {
     use Action;
+
+    public function do_get() {
+        $this->request->get();
+    }
 }

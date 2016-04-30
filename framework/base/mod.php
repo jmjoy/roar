@@ -25,13 +25,13 @@ trait Util {
 trait Getter {
     public function __call($name, $args) {
         if (strpos($name, 'get_') === 0) {
-            return on_get_call($name);
+            return $this->on_get_call($name);
         }
     }
 
     private function on_get_call($name) {
         $field = substr($name, 4);
-        if (!isset($this->$field)) {
+        if (!property_exists($this, $field)) {
             throw new \BadMethodCallException("Field `{$field}` not exists.");
         }
         return $this->$field;
@@ -41,13 +41,13 @@ trait Getter {
 trait Setter {
     public function __call($name, $args) {
         if (strpos($name, 'set_') === 0) {
-            return on_set_call($name, $args);
+            return $this->on_set_call($name, $args);
         }
     }
 
     private function on_set_call($name, $args) {
         $field = substr($name, 4);
-        if (!isset($this->$field)) {
+        if (!property_exists($this, $field)) {
             throw new \BadMethodCallException("Field `{$field}` not exists.");
         }
         $this->$field = $args[0];
@@ -60,10 +60,27 @@ trait GetSetter {
 
     public function __call($name, $args) {
         if (strpos($name, 'get_') === 0) {
-            return on_get_call($name);
+            return $this->on_get_call($name);
         }
         if (strpos($name, 'set_') === 0) {
-            return on_get_call($name, $args);
+            return $this->on_set_call($name, $args);
         }
+    }
+}
+
+trait ArrayGetter {
+    public function array_get($arr, $key = null, $default = null, $callback = null) {
+        if ($key === null) {
+            return $arr;
+        }
+
+        $value = null;
+        if (isset($arr[$key])) {
+            $value = $arr[$key];
+        } else {
+            $value = $default;
+        }
+
+        return ($callback === null) ? $value : $callback($value);
     }
 }

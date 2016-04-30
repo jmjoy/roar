@@ -3,6 +3,7 @@
 namespace roar\prelude;
 
 use roar\base\Util;
+use roar\base\controller\WebRequest;
 
 define('ROAR_PATH', realpath(__DIR__));
 
@@ -37,6 +38,7 @@ class Application {
 
         $controller = new $controller_class();
         $controller->set_application($this);
+        $controller->set_request(new WebRequest());
 
         $controller->do_get();
     }
