@@ -36,25 +36,29 @@ trait Action {
     public function do_head() {
         throw new AccessException('Access Denied.');
     }
+
+    public function forbidden() {
+        throw new AccessException('Access Denied.');
+    }
 }
 
-class WebRequest {
+class Request {
     use Setter;
 
     public function get($key = null, $default = null, $callback = null) {
-        return util\Arr::get($_GET, $default, $callback);
+        return util\Arr::get($_GET, $key, $default, $callback);
     }
 
     public function post($key = null, $default = null, $callback = null) {
-        return util\Arr::get($_POST, $default, $callback);
+        return util\Arr::get($_POST, $key, $default, $callback);
     }
 
     public function server($key = null, $default = null, $callback = null) {
-        return util\Arr::get($_SERVER, $default, $callback);
+        return util\Arr::get($_SERVER, $key, $default, $callback);
     }
 
     public function cookie($key = null, $default = null, $callback = null) {
-        return util\Arr::get($_COOKIE, $default, $callback);
+        return util\Arr::get($_COOKIE, $key, $default, $callback);
     }
 
     public function body() {

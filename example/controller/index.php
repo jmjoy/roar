@@ -8,6 +8,6 @@ class Index {
     use Action;
 
     public function do_get() {
-        $this->request->get();
+        var_dump($this->request->get());
     }
 }

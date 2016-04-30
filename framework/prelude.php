@@ -3,7 +3,7 @@
 namespace roar\prelude;
 
 use roar\base\Util;
-use roar\base\controller\WebRequest;
+use roar\base\controller\Request;
 
 define('ROAR_PATH', realpath(__DIR__));
 
@@ -38,9 +38,31 @@ class Application {
 
         $controller = new $controller_class();
         $controller->set_application($this);
-        $controller->set_request(new WebRequest());
+        $controller->set_request(new Request());
 
-        $controller->do_get();
+        // dispatch via METHOD
+        switch ($controller->get_request()->server('REQUEST_METHOD')) {
+        case 'GET':
+            $controller->do_get();
+            break;
+        case 'POST':
+            $controller->do_post();
+            break;
+        case 'PUT':
+            $controller->do_put();
+            break;
+        case 'DELETE':
+            $controller->do_delete();
+            break;
+        case 'PATCH':
+            $controller->do_patch();
+            break;
+        case 'HEAD':
+            $controller->do_head();
+            break;
+        default:
+            $controller->forbidden();
+        }
     }
 
     public function resolve_config() {
@@ -63,7 +85,6 @@ class Autoload {
     }
 
     private static function autoload($class) {
-        var_dump($class);
         $class_slice = explode('\\', $class);
 
         if (count($class_slice) == 0) {
