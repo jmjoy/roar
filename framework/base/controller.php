@@ -4,8 +4,7 @@ namespace roar\base\controller;
 
 use roar\base\Setter;
 use roar\base\GetSetter;
-use roar\base\ArrayGetter;
-use roar\base\ArrayGetter;
+use roar\util;
 
 trait Action {
     use GetSetter;
@@ -40,22 +39,22 @@ trait Action {
 }
 
 class WebRequest {
-    use Setter, ArrayGetter;
+    use Setter;
 
     public function get($key = null, $default = null, $callback = null) {
-        return $this->array_get($_GET, $default, $callback);
+        return util\Arr::get($_GET, $default, $callback);
     }
 
     public function post($key = null, $default = null, $callback = null) {
-        return $this->array_get($_POST, $default, $callback);
+        return util\Arr::get($_POST, $default, $callback);
     }
 
     public function server($key = null, $default = null, $callback = null) {
-        return $this->array_get($_SERVER, $default, $callback);
+        return util\Arr::get($_SERVER, $default, $callback);
     }
 
     public function cookie($key = null, $default = null, $callback = null) {
-        return $this->array_get($_COOKIE, $default, $callback);
+        return util\Arr::get($_COOKIE, $default, $callback);
     }
 
     public function body() {

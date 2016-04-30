@@ -67,20 +67,3 @@ trait GetSetter {
         }
     }
 }
-
-trait ArrayGetter {
-    public function array_get($arr, $key = null, $default = null, $callback = null) {
-        if ($key === null) {
-            return $arr;
-        }
-
-        $value = null;
-        if (isset($arr[$key])) {
-            $value = $arr[$key];
-        } else {
-            $value = $default;
-        }
-
-        return ($callback === null) ? $value : $callback($value);
-    }
-}

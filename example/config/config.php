@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'id' => 'app',
     'path' => __DIR__ . '/..',
-);
+];
