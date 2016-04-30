@@ -1,0 +1,8 @@
+# composer vendor dir
+/vendor
+
+# gtags
+/GPATH
+/GRTAGS
+/GSYMS
+/GTAGS
