@@ -1,10 +1,11 @@
 <?php
 
-namespace roar\base\controller;
+namespace roar\mvc\controller;
 
-use roar\base\Setter;
-use roar\base\GetSetter;
+use roar\pattren\Setter;
+use roar\pattren\GetSetter;
 use roar\util;
+use roar\exception\http;
 
 trait Action {
     use GetSetter;
@@ -14,31 +15,31 @@ trait Action {
     private $response;
 
     public function do_get() {
-        throw new AccessException('Access Denied.');
+        throw new http\ForbiddenException('Access Denied.');
     }
 
     public function do_post() {
-        throw new AccessException('Access Denied.');
+        throw new http\ForbiddenException('Access Denied.');
     }
 
     public function do_put() {
-        throw new AccessException('Access Denied.');
+        throw new http\ForbiddenException('Access Denied.');
     }
 
     public function do_delete() {
-        throw new AccessException('Access Denied.');
+        throw new http\ForbiddenException('Access Denied.');
     }
 
     public function do_patch() {
-        throw new AccessException('Access Denied.');
+        throw new http\ForbiddenException('Access Denied.');
     }
 
     public function do_head() {
-        throw new AccessException('Access Denied.');
+        throw new http\ForbiddenException('Access Denied.');
     }
 
     public function forbidden() {
-        throw new AccessException('Access Denied.');
+        throw new http\ForbiddenException('Access Denied.');
     }
 }
 
@@ -76,4 +77,10 @@ class View {
     use GetSetter;
 }
 
-class AccessException extends \Exception {}
+class NotFound {
+    use Action;
+
+    public function do_get() {
+        throw new http\NotFoundException();
+    }
+}

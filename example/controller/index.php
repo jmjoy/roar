@@ -2,7 +2,7 @@
 
 namespace app\controller\index;
 
-use roar\base\controller\Action;
+use roar\mvc\controller\Action;
 
 class Index {
     use Action;
