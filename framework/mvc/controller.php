@@ -15,6 +15,7 @@ trait Action {
     private $application;
     private $request;
     private $response;
+    private $view;
 
     public function __call($name, $args) {
         if (strpos($name, 'do_') === 0) {
@@ -28,7 +29,7 @@ trait Action {
 }
 
 class Request {
-    use Setter;
+    use Setter, SaveParentAction;
 
     public function get($key = null, $default = null, $callback = null) {
         return Arr::get($_GET, $key, $default, $callback);
@@ -52,13 +53,28 @@ class Request {
 }
 
 class Response {
-    use GetSetter;
+    use GetSetter, SaveParentAction;
 
     private $view;
 }
 
 class View {
-    use GetSetter;
+    use GetSetter, SaveParentAction;
+
+    private $response;
+
+    public function __construct($action, $response) {
+        $this->action = $action;
+        $this->response = $response;
+    }
+}
+
+trait SaveParentAction {
+    private $action;
+
+    public function __construct($action) {
+        $this->action = $action;
+    }
 }
 
 class NotFound {

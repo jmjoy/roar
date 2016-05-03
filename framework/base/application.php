@@ -56,7 +56,8 @@ trait ApplicationBase {
 
         $action = new $action_class();
         $action->set_application($this);
-        $action->set_request(new controller\Request());
+        $action->set_request(new controller\Request($action));
+        $action->set_response(new controller\Response($action));
 
         // dispatch via METHOD
         $request_method = $action->get_request()->server('REQUEST_METHOD');
