@@ -2,10 +2,11 @@
 
 namespace roar\mvc\controller;
 
-use roar\pattren\Setter;
-use roar\pattren\GetSetter;
+use roar\pattern\Setter;
+use roar\pattern\GetSetter;
 use roar\util;
 use roar\exception\http;
+use roar\util\arr\Arr;
 
 trait Action {
     use GetSetter;
@@ -47,19 +48,19 @@ class Request {
     use Setter;
 
     public function get($key = null, $default = null, $callback = null) {
-        return util\Arr::get($_GET, $key, $default, $callback);
+        return Arr::get($_GET, $key, $default, $callback);
     }
 
     public function post($key = null, $default = null, $callback = null) {
-        return util\Arr::get($_POST, $key, $default, $callback);
+        return Arr::get($_POST, $key, $default, $callback);
     }
 
     public function server($key = null, $default = null, $callback = null) {
-        return util\Arr::get($_SERVER, $key, $default, $callback);
+        return Arr::get($_SERVER, $key, $default, $callback);
     }
 
     public function cookie($key = null, $default = null, $callback = null) {
-        return util\Arr::get($_COOKIE, $key, $default, $callback);
+        return Arr::get($_COOKIE, $key, $default, $callback);
     }
 
     public function body() {

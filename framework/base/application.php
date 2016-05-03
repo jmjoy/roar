@@ -3,7 +3,7 @@
 namespace roar\base\application;
 
 use roar\base\autoload\Autoload;
-use roar\orm\controller;
+use roar\mvc\controller;
 
 trait ApplicationBase {
 
@@ -40,7 +40,7 @@ trait ApplicationBase {
 
         $action = new $action_class();
         $action->set_application($this);
-        $action->set_request(new Request());
+        $action->set_request(new controller\Request());
 
         // dispatch via METHOD
         switch ($action->get_request()->server('REQUEST_METHOD')) {
