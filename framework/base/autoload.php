@@ -21,8 +21,6 @@ class Autoload {
     }
 
     private static function autoload($class) {
-        var_dump($class);
-
         $class_slice = explode('\\', $class);
 
         if (count($class_slice) == 0) {
@@ -36,8 +34,6 @@ class Autoload {
         $class_slice[0] = static::$module_map[$class_slice[0]];
         array_pop($class_slice);
         $path = implode(DIRECTORY_SEPARATOR, $class_slice);
-
-        var_dump($path);
 
         if (is_dir($path)) {
             $mod_path = $path . DIRECTORY_SEPARATOR . 'mod.php';

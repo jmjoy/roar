@@ -2,6 +2,7 @@
 
 namespace roar\mvc\controller;
 
+use roar\base;
 use roar\pattern\Setter;
 use roar\pattern\GetSetter;
 use roar\util;
@@ -15,28 +16,10 @@ trait Action {
     private $request;
     private $response;
 
-    public function do_get() {
-        throw new http\ForbiddenException('Access Denied.');
-    }
-
-    public function do_post() {
-        throw new http\ForbiddenException('Access Denied.');
-    }
-
-    public function do_put() {
-        throw new http\ForbiddenException('Access Denied.');
-    }
-
-    public function do_delete() {
-        throw new http\ForbiddenException('Access Denied.');
-    }
-
-    public function do_patch() {
-        throw new http\ForbiddenException('Access Denied.');
-    }
-
-    public function do_head() {
-        throw new http\ForbiddenException('Access Denied.');
+    public function __call($name, $args) {
+        if (strpos($name, 'do_') === 0) {
+            throw new http\ForbiddenException('Access Denied.');
+        }
     }
 
     public function forbidden() {

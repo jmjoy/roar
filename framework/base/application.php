@@ -9,8 +9,24 @@ trait ApplicationBase {
 
     private $config;
 
+    private static $http_methods = array(
+        "OPTIONS",
+        "GET",
+        "HEAD",
+        "POST",
+        "PUT",
+        "DELETE",
+        "TRACE",
+        "CONNECT",
+        "PATCH",
+    );
+
     public function __construct($config) {
         $this->config = (object) $config;
+    }
+
+    public static function get_http_methods() {
+        return static::$http_methods;
     }
 
     public function run() {
@@ -43,26 +59,11 @@ trait ApplicationBase {
         $action->set_request(new controller\Request());
 
         // dispatch via METHOD
-        switch ($action->get_request()->server('REQUEST_METHOD')) {
-        case 'GET':
-            $action->do_get();
-            break;
-        case 'POST':
-            $action->do_post();
-            break;
-        case 'PUT':
-            $action->do_put();
-            break;
-        case 'DELETE':
-            $action->do_delete();
-            break;
-        case 'PATCH':
-            $action->do_patch();
-            break;
-        case 'HEAD':
-            $action->do_head();
-            break;
-        default:
+        $request_method = $action->get_request()->server('REQUEST_METHOD');
+        if (in_array($request_method, $this->http_methods)) {
+            $method_name = 'do_' . $request_method;
+            $action->$method_name();
+        } else {
             $action->forbidden();
         }
     }
